@@ -1,4 +1,4 @@
-package com.xuhu.springboottsetdemo.core.controller;
+package com.xuhu.springboodemo.core.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

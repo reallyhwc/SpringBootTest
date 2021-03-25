@@ -1,13 +1,13 @@
-package com.xuhu.springboottsetdemo;
+package com.xuhu.springboodemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringboottsetdemoApplication {
+public class SpringBootTestDemoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringboottsetdemoApplication.class, args);
+        SpringApplication.run(SpringBootTestDemoApplication.class, args);
     }
 
 }
