@@ -1,5 +1,6 @@
 package com.xuhu.springboodemo.module.test.controller;
 
+import com.xuhu.springboodemo.core.domain.ResultMsg;
 import com.xuhu.springboodemo.module.test.domain.TestCity;
 import com.xuhu.springboodemo.module.test.service.TestCityService;
 import com.xuhu.springboodemo.module.test.service.TestService;
@@ -30,8 +31,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/getCityList",method = RequestMethod.GET, produces = "application/json")
-    public TestCity getCityList(){
-        List<TestCity> list = testCityService.getCityList();
-        return list.get(0);
+    public ResultMsg getCityList(){
+        return new ResultMsg<>("成功",testCityService.getCityList());
     }
 }
