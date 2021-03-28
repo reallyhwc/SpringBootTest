@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author xuhu
  * @date 2021-03-28 22:00
+ * 测试遵循：https://zhuanlan.zhihu.com/p/139528556
  */
 @SpringBootTest
 public class RedisTest{
