@@ -26,9 +26,21 @@ public interface TestCityService {
     BaseVo<TestCity> getCityPageList(TestCityQuery query);
 
     /**
-     * 获取city分页List fromCache
+     * 获取city分页List fromRedisCache
      * @param query query 查询条件
      * @return 分页List
      */
-    BaseVo<TestCity> getCityPageListFormCache(TestCityQuery query);
+    BaseVo<TestCity> getCityPageListFormRedisCache(TestCityQuery query);
+
+    /**
+     * 获取city分页List fromMemoryCache
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    BaseVo<TestCity> getCityPageListFormMemoryCache(TestCityQuery query);
+
+    /**
+     * initTestCityMemoryCache
+     */
+    void initTestCityMemoryCache();
 }

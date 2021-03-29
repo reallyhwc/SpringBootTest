@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +26,8 @@ public class TestCityServiceImpl implements TestCityService {
     private TestCityMapper testCityMapper;
     @Autowired
     private CacheService redisService;
+
+    private List<TestCity> testCityMemoryList;
 
     /**
      * getList
@@ -54,17 +55,47 @@ public class TestCityServiceImpl implements TestCityService {
     }
 
     /**
-     * 获取city分页List fromCache
+     * 获取city分页List fromRedisCache
      * @param query query 查询条件
      * @return 分页List
      */
     @Override
-    public BaseVo<TestCity> getCityPageListFormCache(TestCityQuery query) {
+    public BaseVo<TestCity> getCityPageListFormRedisCache(TestCityQuery query) {
         query.setPage((int) (Math.random() * 408));
         query.validatePage();
         int total = Math.toIntExact(redisService.getZSetCount("xuhu:test:city"));
-        Set<Object> set = redisService.getPositiveZSet("xuhu:test:city", query.getOffset(), query.getRows());
+        Set<Object> set = redisService.getZSet("xuhu:test:city", query.getOffset(), query.getRows());
+
         List<TestCity> list = (List<TestCity>)(List) Arrays.asList(set);
         return new BaseVo<>(list, total, query.getPage(), query.getRows());
+    }
+
+    /**
+     * 获取city分页List fromMemoryCache
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    @Override
+    public BaseVo<TestCity> getCityPageListFormMemoryCache(TestCityQuery query) {
+        query.setPage((int) (Math.random() * 408));
+        query.validatePage();
+
+        int total = testCityMemoryList.size();
+
+        if (query.getOffset() >= total){
+            return new BaseVo<>();
+        }
+
+        List<TestCity> list = testCityMemoryList.subList(query.getOffset(), Math.min((query.getOffset() + query.getRows()), total));
+
+        return new BaseVo<>(list, total, query.getPage(), query.getRows());
+    }
+
+    /**
+     * initTestCityMemoryCache
+     */
+    @Override
+    public void initTestCityMemoryCache() {
+        testCityMemoryList = testCityMapper.getCityList();
     }
 }

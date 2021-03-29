@@ -1,7 +1,6 @@
 package com.xuhu.springboodemo.module.test.controller;
 
 import com.xuhu.springboodemo.core.domain.ResultMsg;
-import com.xuhu.springboodemo.module.test.domain.TestCity;
 import com.xuhu.springboodemo.module.test.query.TestCityQuery;
 import com.xuhu.springboodemo.module.test.service.TestCityService;
 import com.xuhu.springboodemo.module.test.service.TestService;
@@ -12,11 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * @author xuhu
  * @date 2021-03-28 15:08
+ * 测试用
  */
 @RestController
 @RequestMapping(value = "/api/test")
@@ -49,8 +47,25 @@ public class TestController {
      */
     @RequestMapping(value = "/getCityPageList",method = RequestMethod.GET)
     public ResultMsg getCityPageList(){
-        log.error("getCityPageList");
         return new ResultMsg<>("成功",testCityService.getCityPageList(new TestCityQuery()));
+    }
+
+    /**
+     * getCityPageListFormCache
+     * @return msg
+     */
+    @RequestMapping(value = "/getCityPageListFormRedisCache",method = RequestMethod.GET)
+    public ResultMsg getCityPageListFormRedisCache(){
+        return new ResultMsg<>("成功",testCityService.getCityPageListFormRedisCache(new TestCityQuery()));
+    }
+
+    /**
+     * getCityPageListFormMemoryCache
+     * @return msg
+     */
+    @RequestMapping(value = "/getCityPageListFormMemoryCache",method = RequestMethod.GET)
+    public ResultMsg getCityPageListFormMemoryCache(){
+        return new ResultMsg<>("成功",testCityService.getCityPageListFormMemoryCache(new TestCityQuery()));
     }
 
 }
