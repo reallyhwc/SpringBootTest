@@ -1,12 +1,20 @@
 package com.xuhu.springboodemo.core.redis;
 
+import com.xuhu.springboodemo.core.service.CacheService;
+import com.xuhu.springboodemo.module.test.domain.TestCity;
+import com.xuhu.springboodemo.module.test.service.TestCityService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 
+import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * @author xuhu
@@ -19,6 +27,11 @@ public class RedisTest{
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
+    @Autowired
+    private CacheService redisService;
+    @Autowired
+    private TestCityService testCityService;
+
     // string 入库
     @Test
     public void testForValue1(){
@@ -43,4 +56,20 @@ public class RedisTest{
         long time = 60;
         redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
     }
+
+    @Test
+    void initTestCityToCache(){
+        List<TestCity> testCityList = testCityService.getCityList();
+        // 批量添加zSet缓存
+        Set<ZSetOperations.TypedTuple<Object>> testCityZSet = new HashSet<>();
+        testCityList.forEach(testCity -> {
+
+            testCityZSet.add(new DefaultTypedTuple<>(testCity, testCity.getId().doubleValue()));
+        });
+
+        String key = "xuhu:test:city";
+
+        redisService.batchZSet(key, testCityZSet);
+    }
+
 }

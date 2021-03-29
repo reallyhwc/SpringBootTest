@@ -2,6 +2,7 @@ package com.xuhu.springboodemo.module.test.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.xuhu.springboodemo.core.service.CacheService;
 import com.xuhu.springboodemo.core.vo.BaseVo;
 import com.xuhu.springboodemo.module.test.domain.TestCity;
 import com.xuhu.springboodemo.module.test.mapper.TestCityMapper;
@@ -10,7 +11,10 @@ import com.xuhu.springboodemo.module.test.service.TestCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author xuhu
@@ -21,6 +25,8 @@ public class TestCityServiceImpl implements TestCityService {
 
     @Autowired
     private TestCityMapper testCityMapper;
+    @Autowired
+    private CacheService redisService;
 
     /**
      * getList
@@ -45,5 +51,20 @@ public class TestCityServiceImpl implements TestCityService {
         List<TestCity> list = testCityMapper.getCityList();
         PageInfo<TestCity> pageInfo = new PageInfo<>(list);
         return new BaseVo<>(list, (int)pageInfo.getTotal(), query.getPage(), query.getRows());
+    }
+
+    /**
+     * 获取city分页List fromCache
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    @Override
+    public BaseVo<TestCity> getCityPageListFormCache(TestCityQuery query) {
+        query.setPage((int) (Math.random() * 408));
+        query.validatePage();
+        int total = Math.toIntExact(redisService.getZSetCount("xuhu:test:city"));
+        Set<Object> set = redisService.getPositiveZSet("xuhu:test:city", query.getOffset(), query.getRows());
+        List<TestCity> list = (List<TestCity>)(List) Arrays.asList(set);
+        return new BaseVo<>(list, total, query.getPage(), query.getRows());
     }
 }

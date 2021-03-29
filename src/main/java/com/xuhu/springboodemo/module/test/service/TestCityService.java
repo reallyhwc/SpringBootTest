@@ -24,4 +24,11 @@ public interface TestCityService {
      * @return 分页List
      */
     BaseVo<TestCity> getCityPageList(TestCityQuery query);
+
+    /**
+     * 获取city分页List fromCache
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    BaseVo<TestCity> getCityPageListFormCache(TestCityQuery query);
 }
