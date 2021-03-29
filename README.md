@@ -10,7 +10,7 @@ TestController中
 
 /api/test/getCityPageListFormMemoryCache
 
-简单压测，没有校验登录状态，也没有其他的东西
+简单使用JMeter压测，没有校验登录状态，也没有其他的东西 1000线程跑
 
 三个接口分别是直接查库，查redis数据，查内存数据，逻辑基本一致，随机分页取city数据
 
