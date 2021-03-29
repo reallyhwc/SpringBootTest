@@ -1,5 +1,6 @@
 package com.xuhu.springboodemo.core.redis;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
  * 测试遵循：https://zhuanlan.zhihu.com/p/139528556
  */
 @SpringBootTest
+@Slf4j
 public class RedisTest{
 
     @Autowired
@@ -21,7 +23,7 @@ public class RedisTest{
     @Test
     public void testForValue1(){
         String key = "zszxz";
-        String value = "知识追寻者";
+        String value = "知识追寻者1111";
         redisTemplate.opsForValue().set(key, value);
     }
 
