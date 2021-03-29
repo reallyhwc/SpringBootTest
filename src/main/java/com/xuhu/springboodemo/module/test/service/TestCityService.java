@@ -1,6 +1,8 @@
 package com.xuhu.springboodemo.module.test.service;
 
+import com.xuhu.springboodemo.core.vo.BaseVo;
 import com.xuhu.springboodemo.module.test.domain.TestCity;
+import com.xuhu.springboodemo.module.test.query.TestCityQuery;
 
 import java.util.List;
 
@@ -15,4 +17,11 @@ public interface TestCityService {
      * @return list
      */
     List<TestCity> getCityList();
+
+    /**
+     * 获取city分页List
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    BaseVo<TestCity> getCityPageList(TestCityQuery query);
 }
