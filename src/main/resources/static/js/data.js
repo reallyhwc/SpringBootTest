@@ -1,0 +1,1 @@
+alert('我是data.js文件');
