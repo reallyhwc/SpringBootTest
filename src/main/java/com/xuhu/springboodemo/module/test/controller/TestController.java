@@ -37,7 +37,6 @@ public class TestController {
      */
     @RequestMapping(value = "/getCityList",method = RequestMethod.GET)
     public ResultMsg getCityList(){
-        log.error("aaaaa");
         return new ResultMsg<>("成功",testCityService.getCityList());
     }
 
