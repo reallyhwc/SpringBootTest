@@ -67,4 +67,13 @@ public class TestController {
         return new ResultMsg<>("成功",testCityService.getCityPageListFormMemoryCache(new TestCityQuery()));
     }
 
+    /**
+     * getCityPageListFormMemoryMapCache
+     * @return msg
+     */
+    @RequestMapping(value = "/getCityPageListFormMemoryMapCache",method = RequestMethod.GET)
+    public ResultMsg getCityPageListFormMemoryMapCache(){
+        return new ResultMsg<>("成功",testCityService.getCityPageListFormMemoryMapCache(new TestCityQuery()));
+    }
+
 }

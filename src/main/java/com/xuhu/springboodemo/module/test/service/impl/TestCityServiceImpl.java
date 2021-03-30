@@ -11,9 +11,7 @@ import com.xuhu.springboodemo.module.test.service.TestCityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author xuhu
@@ -28,6 +26,8 @@ public class TestCityServiceImpl implements TestCityService {
     private CacheService redisService;
 
     private List<TestCity> testCityMemoryList;
+
+    private Map<Integer, List<TestCity>> testCityMemoryMap;
 
     /**
      * getList
@@ -92,10 +92,36 @@ public class TestCityServiceImpl implements TestCityService {
     }
 
     /**
+     * 获取city分页List fromMemoryMapCache
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    @Override
+    public BaseVo<TestCity> getCityPageListFormMemoryMapCache(TestCityQuery query) {
+        query.setPage((int) (Math.random() * 408));
+        query.validatePage();
+        int total = testCityMemoryList.size();
+
+        if (query.getOffset() >= total){
+            return new BaseVo<>();
+        }
+
+        return new BaseVo<>(testCityMemoryMap.get(query.getPage()), total, query.getPage(), query.getRows());
+    }
+
+    /**
      * initTestCityMemoryCache
      */
     @Override
     public void initTestCityMemoryCache() {
         testCityMemoryList = testCityMapper.getCityList();
+        int total = testCityMemoryList.size();
+        TestCityQuery query = new TestCityQuery();
+        testCityMemoryMap = new HashMap<>();
+        for (int i = 1; i < 407; i++){
+            query.setPage(i);
+            BaseVo baseVo = this.getCityPageList(query);
+            testCityMemoryMap.put(i, baseVo.getRows());
+        }
     }
 }

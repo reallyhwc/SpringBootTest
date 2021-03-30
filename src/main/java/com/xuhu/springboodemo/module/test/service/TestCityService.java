@@ -40,6 +40,13 @@ public interface TestCityService {
     BaseVo<TestCity> getCityPageListFormMemoryCache(TestCityQuery query);
 
     /**
+     * 获取city分页List fromMemoryMapCache
+     * @param query query 查询条件
+     * @return 分页List
+     */
+    BaseVo<TestCity> getCityPageListFormMemoryMapCache(TestCityQuery query);
+
+    /**
      * initTestCityMemoryCache
      */
     void initTestCityMemoryCache();
