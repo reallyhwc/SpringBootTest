@@ -22,7 +22,7 @@ public class InitTestCityMemoryCache implements InitializingBean {
     @Override
     public void afterPropertiesSet(){
         log.error("开始执行项目启动-内存cityCache设置！");
-        testCityService.initTestCityMemoryCache();
+//        testCityService.initTestCityMemoryCache();
         log.error("项目启动-初始化-内存cityCache设置完成！");
     }
 }
